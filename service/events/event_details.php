@@ -1,0 +1,3 @@
+<?php
+// Recode this script
+?>
