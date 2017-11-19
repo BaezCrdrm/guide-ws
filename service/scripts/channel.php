@@ -19,25 +19,32 @@ function channelAdmList()
     require_once "queries.php";
     $consult = "SELECT * FROM channels";
     $result = executeQuery($consult);
-    $str = "<table class='tabla'>  
-          <tr>  
-          <th>Id Channel</th>
-          <th>Channel Name</th>  
-          <th>Channel Abv</th>  
-          <th></th>
-          </tr>";
-    while ($row = mysqli_fetch_row($result))
-    {   
-        $str .= "<tr>  
-          <td>$row[0]</td>  
-          <td>$row[1]</td>  
-          <td>$row[2]</td>
-          <td><img src='$row[3]'/></td>
-          <td><a href='detalles.php?id=$row[0]'>Update</a></td>
-          <td><a href='DeleteChannel.php?id=$row[0]'>Delete</a></td>
-          </tr>";
-    }
 
-    return $str;
+    if($result)
+    {
+        $str = "<table class='tabla'>  
+            <tr>  
+            <th>Id Channel</th>
+            <th>Channel Name</th>  
+            <th>Channel Abv</th>  
+            <th></th>
+            </tr>";
+        while ($row = mysqli_fetch_row($result))
+        {   
+            $str .= "<tr>  
+            <td>$row[0]</td>  
+            <td>$row[1]</td>  
+            <td>$row[2]</td>
+            <td><img src='$row[3]'/></td>
+            <td><a href='detalles.php?id=$row[0]'>Update</a></td>
+            <td><a href='DeleteChannel.php?id=$row[0]'>Delete</a></td>
+            </tr>";
+        }
+
+        return $str;
+    }
+    else {
+        return "There are no registered channels. Add a <a href='#'>new channel</a>";
+    }
 }
 ?>

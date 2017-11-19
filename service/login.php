@@ -4,7 +4,7 @@ $pass = $_POST["inpPass"];
 
 $enPass = sha1($pass);
 
-require "../scripts/service/connection.php";
+require "scripts/connection.php";
 
 $query = "SELECT * FROM pass WHERE id = '$user' AND pwd = '$enPass'";
 $consulta = mysqli_query($connection, $query);

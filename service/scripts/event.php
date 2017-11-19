@@ -8,7 +8,6 @@ function returnEventType($type)
 
     while($reg = mysqli_fetch_array($c, MYSQLI_NUM))
     {
-        //Cambiar de ser necesario
         $opt .= "
         <option value='".$reg[0]."'";
         if($type == $reg[0])
@@ -25,27 +24,35 @@ function getEventList()
 {
     require_once "queries.php";
     $query = "SELECT ev_id, ev_name, ev_sch, ev_sch_end FROM event";
-    $resultado = executeQuery($query);
-    $str = "<table>  
-          <tr>  
-          <th>Event Id</th>
-          <th>Event Name</th>  
-          <th>Beginning</th>  
-          <th>Ending</th> 
-          <th></th>
-          <th></th>
-          </tr>";
+    $result = executeQuery($query);
 
-    while($row = mysqli_fetch_row($resultado))
+    if($result != null)
     {
-        $str .= "<tr>
-          <td>$row[0]</td>
-          <td>$row[1]</td>
-          <td>$row[2]</td>
-          <td>$row[3]</td>
-          <td><a href='detalles.php?evid=$row[0]'>Update</a></td>
-          <td></td>";
+        $str = "<table>  
+            <tr>  
+            <th>Event Id</th>
+            <th>Event Name</th>  
+            <th>Beginning</th>  
+            <th>Ending</th> 
+            <th></th>
+            <th></th>
+            </tr>";
+
+        while($row = mysqli_fetch_row($result))
+        {
+            $str .= "<tr>
+            <td>$row[0]</td>
+            <td>$row[1]</td>
+            <td>$row[2]</td>
+            <td>$row[3]</td>
+            <td><a href='detalles.php?evid=$row[0]'>Update</a></td>
+            <td></td>";
+        }
+        $str .= "</table>";
+        return $str;
     }
-    return $str;
+    else {
+        return "There are no registered events. Add a <a href='#'>new event</a>";
+    }
 }
 ?>
