@@ -12,7 +12,8 @@ function generateId($sch)
     $array = explode("-", $sch);
     $year = $array[0];
     $month = $array[1];
-    $day = $array[2];
+    $dayArray = explode(" ", $array[2]);
+    $day = $dayArray[0];
     $idYear = str_split($year);  
     $tid = $idYear[2].$idYear[3].$month.$day;
 

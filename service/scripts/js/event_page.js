@@ -1,11 +1,12 @@
 var params;
+var modify;
 
 $("document").ready(function()
 {
     getUrlPatameter();
     loadPageData();
     var inpValue = "";
-    var modify = false;
+    modify = false;
     if(params["evid"] != 'null' && params["evid"] != '' && params["evid"] != undefined)
     {
         getInfoFromServer();
@@ -67,12 +68,8 @@ function getInfoFromServer()
 
 function loadPageData()
 {
-    $.ajax(
-        {
-            url: "../scripts/simple_catalog.php?target=type",
-            success: postToSelectTag
-        }
-    );
+    loadCatalogData('type');
+    loadCatalogData('allChannels');
 
     var dl = document.getElementById("dtlDateTime");
     var d = new Date();
@@ -88,6 +85,27 @@ function loadPageData()
     onDateTimePickerChange();
 }
 
+function loadCatalogData(target)
+{
+    $.ajax(
+        {
+            url: "../scripts/simple_catalog.php?target=" + target,
+            success: function(data, status)
+            {
+                switch (target) {
+                    case 'type':
+                        $('#slTypeEvent').append(data);
+                        break;
+                
+                    case 'allChannels':
+                        $('#ulAllChannels').append(data);
+                        break;
+                }
+            }
+        }
+    );
+}
+
 function addZero(value, max)
 {
     try {
@@ -98,11 +116,6 @@ function addZero(value, max)
     } catch (error) {
         return value;
     }    
-}
-
-function postToSelectTag(data, status)
-{
-    $('#slTypeEvent').append(data);
 }
 
 function postToPage(result)
@@ -152,4 +165,20 @@ function onDateTimePickerChange()
     d2.max = dl.max;
     d2.min = dl.value;
     d2.value = d2.min;
+}
+
+function checkedChange(object)
+{
+    var ulSelectedCh = document.getElementById("ulSelectedChannels");  
+    if(object.checked == true)
+    {
+        var newSelli = document.createElement("li");
+        newSelli.id = "sel_" & object.id;
+        newSelli.value = object.value;
+        newSelli.innerText = object.alt; 
+        ulSelectedCh.appendChild(newSelli);
+    } else {
+        var oldSelli = document.getElementById("sel_" & object.id);
+        ulSelectedCh.removeChild(oldSelli);
+    }
 }

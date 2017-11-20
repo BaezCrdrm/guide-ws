@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2017 a las 07:10:20
+-- Tiempo de generación: 20-11-2017 a las 20:32:28
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -24,6 +24,17 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addEventChannels` (IN `eid` VARCHAR(11), IN `cid` INT)  BEGIN
+INSERT INTO event_channel
+(
+    ev_id,
+    ch_id
+) VALUES (
+    eid,
+    cid
+);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `createEvent` (IN `id` VARCHAR(11), IN `name` VARCHAR(45), IN `sch` DATETIME, IN `ending` DATETIME, IN `des` VARCHAR(45), IN `type` INT)  BEGIN
 INSERT INTO event (
 	ev_id,
@@ -280,7 +291,7 @@ ALTER TABLE `types`
 -- Filtros para la tabla `event_channel`
 --
 ALTER TABLE `event_channel`
-  ADD CONSTRAINT `fk_evch_ch` FOREIGN KEY (`ch_id`) REFERENCES `channels` (`ch_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_evch_ch` FOREIGN KEY (`ch_id`) REFERENCES `channels` (`ch_id`),
   ADD CONSTRAINT `fk_evch_ev` FOREIGN KEY (`ev_id`) REFERENCES `event` (`ev_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --

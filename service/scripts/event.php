@@ -9,7 +9,7 @@ if(isset($_GET['action']) && !empty($_GET['action']))
         $starting_datetime = formatDateTime($_GET["evDateTime"]);
         $ending_datetime = formatDateTime($_GET["evDateTimeEnd"]);
 
-        #$chChecked = $_GET["channels"];
+        $chChecked = $_GET["channels"];
 
         $type = $_GET["evType"];
         $description = $_GET["evDescription"];
@@ -30,12 +30,12 @@ if(isset($_GET['action']) && !empty($_GET['action']))
             if(isset($_GET['evId'])) 
             {   
                 $id = $_GET['evId'];
-                modifyEvent($id, $title, $starting_datetime, $ending_datetime, $type, $description, null);
+                modifyEvent($id, $title, $starting_datetime, $ending_datetime, $type, $description, $chChecked);
             }
             break;
 
         case 'new':
-            addEvent($title, $starting_datetime, $ending_datetime, $type, $description, null);
+            addEvent($title, $starting_datetime, $ending_datetime, $type, $description, $chChecked);
             break;
     }
 }
@@ -46,10 +46,16 @@ function addEvent($title, $sdt, $edt, $type, $desc, $chlist)
     
     $id = generateId($sdt);
     
+    // Add event
     $query = "CALL createEvent('$id', '$title', '$sdt', '$edt', '$desc', $type)";
     executeQuery($query);
 
     // Add channels
+    for($i = 0; $i < count($chlist); $i++)
+    {
+        $query = "CALL addEventChannels('$id', ".$chlist[$i].")";
+        executeQuery($query);
+    }
 }
 
 function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $chlist)
@@ -121,6 +127,7 @@ function getEventList()
 
 function getEventInformation($id)
 {
+    // It needs to get the channel list
     require_once "queries.php";
     $query = "CALL getEventInformation('$id')";
     $consult = executeQuery($query);
