@@ -14,13 +14,13 @@ if($_SESSION["activeSession"] == true)
         <h3>Events</h3>
         <ul>
             <li><a href="events/event_list.php">Events list</a></li>
-            <li><a href="../work-in-progress.html?evid=null">Add new event</a></li>
+            <li><a href="events/event_details.html">Add new event</a></li>
         </ul>
 
         <h3>Channels</h3>
         <ul>
             <li><a href="channels/channel_list.php">Channels list</a></li>
-            <li><a href="../work-in-progress.html?id=null">Add new channel</a></li>
+            <li><a href="../work-in-progress.html">Add new channel</a></li>
         </ul>
     </body>
 </html>

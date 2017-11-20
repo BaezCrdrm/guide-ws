@@ -1,4 +1,53 @@
 <?php
+if(isset($_GET['action']) && !empty($_GET['action']))
+{
+    $action = $_GET['action'];
+
+    if($action == "new" || $action == "update")
+    {
+        $title = $_GET["evName"];
+        $starting_datetime = $_GET["evDateTime"];
+        $ending_datetime = $_GET["evDateTimeEnd"];
+
+        #$chChecked = $_GET["channels"];
+
+        $type = $_GET["evType"];
+        $description = $_GET["evDescription"];
+    }
+
+    switch($action)
+    {
+        case 'consult': 
+            if(isset($_GET['evid'])) 
+            {   
+                $id = $_GET['evid'];
+                getEventInformation($id);
+            }
+            break;
+
+        case 'new':
+            addEvent($title, $starting_datetime, $ending_datetime, $type, $description, null);
+            break;
+    }
+}
+
+function addEvent($title, $sdt, $edt, $type, $desc, $chlist)
+{
+    require_once "queries.php";
+
+    $arrayd1 = explode("T", $sdt);
+    $sdt = $arrayd1[0];
+    $arrayd2 = explode("T", $edt);
+    $edt = $arrayd2[0];
+    
+    $id = generateId($sdt);
+    
+    $query = "CALL createEvent('$id', '$sdt', '$edt', '$desc', $type)";
+    $consult = executeQuery($query);
+
+    // Add channels
+}
+
 function returnEventType($type)
 {
     require_once "queries.php";
@@ -45,14 +94,28 @@ function getEventList()
             <td>$row[1]</td>
             <td>$row[2]</td>
             <td>$row[3]</td>
-            <td><a href='detalles.php?evid=$row[0]'>Update</a></td>
+            <td><a href='event_details.html?evid=$row[0]'>Update</a></td>
             <td></td>";
         }
         $str .= "</table>";
         return $str;
     }
     else {
-        return "There are no registered events. Add a <a href='#'>new event</a>";
+        return "There are no registered events. Add a <a href='event_details.html'>new event</a>";
+    }
+}
+
+function getEventInformation($id)
+{
+    require_once "queries.php";
+    $query = "CALL getEventInformation('$id')";
+    $consult = executeQuery($query);
+
+    $data = array();
+
+    while ($row = mysqli_fetch_row($consult))
+    {
+        //$data[]
     }
 }
 ?>
