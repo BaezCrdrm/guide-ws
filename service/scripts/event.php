@@ -3,11 +3,11 @@ if(isset($_GET['action']) && !empty($_GET['action']))
 {
     $action = $_GET['action'];
 
-    if($action == "new" || $action == "update")
+    if($action == "new" || $action == "modify")
     {
         $title = $_GET["evName"];
-        $starting_datetime = $_GET["evDateTime"];
-        $ending_datetime = $_GET["evDateTimeEnd"];
+        $starting_datetime = formatDateTime($_GET["evDateTime"]);
+        $ending_datetime = formatDateTime($_GET["evDateTimeEnd"]);
 
         #$chChecked = $_GET["channels"];
 
@@ -18,10 +18,19 @@ if(isset($_GET['action']) && !empty($_GET['action']))
     switch($action)
     {
         case 'consult': 
-            if(isset($_GET['evid'])) 
+            if(isset($_GET['evId'])) 
             {   
-                $id = $_GET['evid'];
-                getEventInformation($id);
+                $id = $_GET['evId'];
+                $event_data = getEventInformation($id);
+                echo json_encode($event_data);
+            }
+            break;
+
+        case 'modify': 
+            if(isset($_GET['evId'])) 
+            {   
+                $id = $_GET['evId'];
+                modifyEvent($id, $title, $starting_datetime, $ending_datetime, $type, $description, null);
             }
             break;
 
@@ -34,18 +43,23 @@ if(isset($_GET['action']) && !empty($_GET['action']))
 function addEvent($title, $sdt, $edt, $type, $desc, $chlist)
 {
     require_once "queries.php";
-
-    $arrayd1 = explode("T", $sdt);
-    $sdt = $arrayd1[0];
-    $arrayd2 = explode("T", $edt);
-    $edt = $arrayd2[0];
     
     $id = generateId($sdt);
     
-    $query = "CALL createEvent('$id', '$sdt', '$edt', '$desc', $type)";
-    $consult = executeQuery($query);
+    $query = "CALL createEvent('$id', '$title', '$sdt', '$edt', '$desc', $type)";
+    executeQuery($query);
 
     // Add channels
+}
+
+function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $chlist)
+{
+    require_once "queries.php";
+
+    $query = "CALL updateEvent('$id', '$title', '$sdt', '$edt', '$desc', $type)";
+    executeQuery($query);
+
+    // update channels
 }
 
 function returnEventType($type)
@@ -112,10 +126,25 @@ function getEventInformation($id)
     $consult = executeQuery($query);
 
     $data = array();
+    $i = 0;
 
     while ($row = mysqli_fetch_row($consult))
     {
-        //$data[]
+        $data[$i]["ev_id"] = $row[0];
+        $data[$i]["ev_name"] = $row[1];
+        $data[$i]["ev_sch"] = $row[2];
+        $data[$i]["ev_sch_end"] = $row[3];
+        $data[$i]["ev_des"] = $row[4];
+        $data[$i]["tp_id"] = $row[5];
+        $i++;
     }
+
+    return $data;
+}
+
+function formatDateTime($date)
+{
+    $a = str_replace('T', ' ', $date);
+    return $a;
 }
 ?>
