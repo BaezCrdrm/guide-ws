@@ -18,18 +18,18 @@ if(isset($_GET['action']) && !empty($_GET['action']))
     switch($action)
     {
         case 'consult': 
-            if(isset($_GET['evId'])) 
+            if(isset($_GET['evid'])) 
             {   
-                $id = $_GET['evId'];
+                $id = $_GET['evid'];
                 $event_data = getEventInformation($id);
                 echo json_encode($event_data);
             }
             break;
 
         case 'modify': 
-            if(isset($_GET['evId'])) 
+            if(isset($_GET['evid'])) 
             {   
-                $id = $_GET['evId'];
+                $id = $_GET['evid'];
                 modifyEvent($id, $title, $starting_datetime, $ending_datetime, $type, $description, $chChecked);
             }
             break;
@@ -51,11 +51,7 @@ function addEvent($title, $sdt, $edt, $type, $desc, $chlist)
     executeQuery($query);
 
     // Add channels
-    for($i = 0; $i < count($chlist); $i++)
-    {
-        $query = "CALL addEventChannels('$id', ".$chlist[$i].")";
-        executeQuery($query);
-    }
+    addChannels($id, $chlist);
 }
 
 function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $chlist)
@@ -66,6 +62,19 @@ function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $chlist)
     executeQuery($query);
 
     // update channels
+    $query = "DELETE FROM event_channel WHERE ev_id = '$id'";
+    executeQuery($query);
+
+    addChannels($id, $chlist);
+}
+
+function addChannels($id, $chlist)
+{
+    for($i = 0; $i < count($chlist); $i++)
+    {
+        $query = "CALL addEventChannels('$id', ".$chlist[$i].")";
+        executeQuery($query);
+    }
 }
 
 function returnEventType($type)

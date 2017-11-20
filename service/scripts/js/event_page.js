@@ -9,6 +9,7 @@ $("document").ready(function()
     modify = false;
     if(params["evid"] != 'null' && params["evid"] != '' && params["evid"] != undefined)
     {
+        $("#inpId").val(params["evid"]);
         getInfoFromServer();
         modify = true;
     }
