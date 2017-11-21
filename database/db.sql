@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2017 a las 20:32:28
+-- Tiempo de generación: 21-11-2017 a las 02:59:14
 -- Versión del servidor: 10.1.9-MariaDB
 -- Versión de PHP: 5.6.15
 
@@ -24,6 +24,18 @@ DELIMITER $$
 --
 -- Procedimientos
 --
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addChannel` (IN `chname` VARCHAR(45), IN `chabv` VARCHAR(4), IN `chimg` VARCHAR(400))  BEGIN
+INSERT INTO channels (
+    ch_name,
+    ch_abv,
+    ch_img
+) VALUES (
+    chname,
+    chabv,
+    chimg
+);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addEventChannels` (IN `eid` VARCHAR(11), IN `cid` INT)  BEGIN
 INSERT INTO event_channel
 (
@@ -81,6 +93,15 @@ GROUP BY
     
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `modifyChannel` (`id` INT, `chname` VARCHAR(45), `chabv` VARCHAR(4), `chimg` VARCHAR(400))  BEGIN 
+UPDATE channels 
+SET
+    ch_name = chname, 
+    ch_abv = chabv, 
+    ch_img = chimg
+WHERE ch_id = id;    
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEvent` (IN `id` VARCHAR(11), IN `name` VARCHAR(45), IN `sch` DATETIME, IN `sch_end` DATETIME, IN `des` VARCHAR(45), IN `type` INT)  BEGIN
 UPDATE event
 SET
@@ -116,12 +137,10 @@ CREATE TABLE `channels` (
 --
 
 INSERT INTO `channels` (`ch_id`, `ch_name`, `ch_abv`, `ch_img`) VALUES
-(1, 'ESPN', 'E1', NULL),
-(2, 'ESPN 2', 'E2', NULL),
-(3, 'FOX SPORTS', 'FXS1', NULL),
-(4, 'FOX SPORTS 2', 'FXS2', NULL),
-(5, 'AZTECA 7', 'A7', NULL),
-(6, 'CANAL 5', 'C5', NULL);
+(1, 'ESPN', 'E1', ''),
+(2, 'ESPN 2', 'E2', ''),
+(3, 'FOX SPORTS', 'FXS1', ''),
+(4, 'FOX SPORTS 2', 'FXS2', '');
 
 -- --------------------------------------------------------
 
@@ -277,7 +296,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `channels`
 --
 ALTER TABLE `channels`
-  MODIFY `ch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `ch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `types`
 --
