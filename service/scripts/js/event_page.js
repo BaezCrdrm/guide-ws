@@ -3,7 +3,7 @@ var modify;
 
 $("document").ready(function()
 {
-    getUrlPatameter();
+    params = getUrlPatameter();
     loadPageData();
     var inpValue = "";
     modify = false;
@@ -129,34 +129,12 @@ function postToPage(result)
 
     $("#dtlDateTime").val(formatMySqlDateData(data["ev_sch"]));
     $("#dtlDateTimeEnd").val(formatMySqlDateData(data["ev_sch_end"]));
-
 }
 
 function formatMySqlDateData(date)
 {
     var a = date.split(' ');
     return a[0] + "T" + a[1];
-}
-
-function getUrlPatameter()
-{
-    var _pageUrl = decodeURIComponent(window.location.search.substring(1)),
-        _urlVariables = _pageUrl.split('&'),
-        _paramName,
-        i;
-
-    params = Array;
-    var _returnVal = false;
-
-    for (i = 0; i< _urlVariables.length; i++)
-    {
-        _paramName = _urlVariables[i].split('=');
-        params[_paramName[0]] = _paramName[1];
-        _returnVal = true;
-    }
-
-    if(_returnVal == false)
-        params = null;
 }
 
 function onDateTimePickerChange()
