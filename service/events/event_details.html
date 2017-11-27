@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Event details</title>
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="../scripts/js/shared_code.js"></script>
+    <script src="../scripts/js/event_page.js"></script>
+</head>
+
+<body>
+    <h1>Event details</h1>
+    <div>
+        <h3>Open with</h3>
+        <ul>
+            <li>Microsoft edge</li>
+            <li>Google chrome</li>
+            <li>Opera (Desktop)</li>
+        </ul>
+    </div>
+
+    <p id="message">Loading data</p>
+
+    <form id="formData" method="GET">
+        <input type="hidden" id="inpId" name="evid" />
+        <input type="hidden" id="inpAction" name="action" />
+
+        <label>Event Country</label>
+        <select id="slCountryEvent" name="evCountry" onchange="country_selectionChange()">
+            
+        </select><br>
+
+        <label>Event name</label>
+        <input type="text" id="inpName" placeholder="Event name" name="evName" required><br>
+        <label>Event startig date and time</label>
+        <input type="datetime-local" id="dtlDateTime" name="evDateTime" required onchange="onDateTimePickerChange()" /><br>
+
+        <label>Event ending date and time</label>
+        <input type="datetime-local" id="dtlDateTimeEnd" name="evDateTimeEnd" required><br>
+        
+        <label>Event channels</label>
+        <div id="divChannels">
+            <div id="divAllChannels" class="divChannelSelectionList">
+                <h2>Channel list</h2>
+                <ul id="ulAllChannels">
+
+                </ul>
+            </div>
+            <div id="divSelectedChannels" class="divChannelSelectionList">
+                <h2>Selected channels</h2>
+                <ul id="ulSelectedChannels"></ul>
+            </div>
+            <br>
+        </div>
+
+        <label>Event type</label>
+        <select id="slTypeEvent" name="evType">
+            
+        </select><br>
+
+        <label>Event details</label>
+        <textarea id="txtDescription" placeholder="Event details" name="evDescription" 
+        maxlength="45" wrap></textarea><br>
+        <input id="btnAccept" type="button" value="Accept" />
+    </form>
+</body>
+</html>
