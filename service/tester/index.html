@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RESTful request Tester</title>
+        <meta charset="utf-8" />
+
+        <script type="text/javascript">
+            function button_Click(btn)
+            {
+                var _url = "../scripts/rest/";
+                switch(btn.id)
+                {
+                    case "btnReqEvent":
+                        _url += "req_events.php?evid=" + inpId.value;
+                        if(inpType.value.trim() != "")
+                        {
+                            _url += "&tpid=" + inpType.value;
+                        }
+                        break;
+
+                    case "btnReqEventChannelList":
+                        _url += "req_eventChannelList.php?evid=" + inpId.value;
+                        break;
+
+                    case "btnReqChannel":
+                        _url += "req_channel.php?chid=" + inpId.value;
+                        break;
+                }
+
+                var _window = window.open(_url, '_blank');
+                navigate(_window);
+            }
+            
+            function navigate(_window)
+            {
+                if (_window) {
+                    //Browser has allowed it to be opened
+                    _window.focus();
+                } else {
+                    //Browser has blocked it
+                    alert('Please allow popups for this website');
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <input type="text" id="inpId" placeholder="ID" />
+        <input type="text" id="inpType" placeholder="Type" />
+
+        <button id="btnReqEvent" onclick="button_Click(this)">req event</button>
+        <button id="btnReqEventChannelList" onclick="button_Click(this)">req event channel list</button>
+        <button id="btnReqChannel" onclick="button_Click(this)">req channel</button>
+    </body>
+</html>
