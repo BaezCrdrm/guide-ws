@@ -179,6 +179,28 @@ country_lang = lang
 WHERE country_id = id;
 END$$
 
+CREATE PROCEDURE `restReq_getChannelInfo` (IN `id` INT)  BEGIN
+SELECT
+ch_id,
+ch_name,
+ch_abv,
+ch_img
+FROM channels
+WHERE ch_id = id;
+END$$
+
+CREATE PROCEDURE `restReq_getEventChannelList` (IN `id` VARCHAR(11))  BEGIN
+SELECT 
+ch.ch_id, 
+ch.ch_name, 
+ch.ch_abv, 
+ch.ch_img
+FROM channels ch
+INNER JOIN event_channel evc
+ON evc.ch_id = ch.ch_id
+WHERE evc.ev_id = id;
+END$$
+
 CREATE PROCEDURE `updateEvent` (IN `id` VARCHAR(11), IN `name` VARCHAR(45), IN `sch` DATETIME, IN `sch_end` DATETIME, IN `des` VARCHAR(45), IN `country` INT, IN `type` INT)  BEGIN
 UPDATE events
 SET
