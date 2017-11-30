@@ -1,7 +1,7 @@
-# Guide Web Service
-This project is intended to be the PHP REST API for the live tv/broadcasting guide apps, which the Nova team has been working on for the last months.
+# Servicio web guía de programación
+El objetivo de este repositorio es el desarrollo del servicio web para las aplicaciones multiplataforma de guías de programación.
+Para revisar las aplicaciones cliente de guía de programación, visitar este link: https://github.com/BaezCrdrm/movilesAppXamarin/tree/so
 
-For more information contact with the Nova developers.
-### Developers
-- BaezCrdrm - [GitHub](https://github.com/BaezCrdrm) / [Email](mailto:dev.baez_crdrm@outlook.com)
-- César García
+## Uso
+El servicio web puede ser consumido por cualquier aplicación que soporte el protocolo HTTP.
+Debido a que las aplicaciones cliente aún se encuentran en desarrollo, se puede hacer uso de la página [tester](#) para probar el servicio web.
