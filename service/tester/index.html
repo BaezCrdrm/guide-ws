@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>RESTful request Tester</title>
+        <meta charset="utf-8" />
+
+        <script type="text/javascript">
+            function button_Click(btn)
+            {
+                var _url = "../scripts/rest/";
+                var _open = true;
+                switch(btn.id)
+                {
+                    case "btnReqEvent":
+                        _url += "req_events.php?evId=" + inpId.value;
+                        if(inpType.value.trim() != "")
+                        {
+                            _url += "&tpId=" + inpType.value;
+                            _open = true;
+                        }
+                        break;
+
+                    case "btnReqEventChannelList":
+                        if(inpId.value == null || inpId.value == "")
+                        {
+                            alert("Necesita agregar un ID de evento");
+                            _open = false;
+                        } else 
+                        {
+                            _url += "req_eventChannelList.php?evId=" + inpId.value;
+                            _open = true;
+                        }
+                        break;
+
+                    case "btnReqChannel":
+                        if(inpId.value == null || inpId.value == "")
+                        {
+                            alert("Necesita agregar un ID de canal");
+                            _open = false;
+                        } else 
+                        {
+                            _url += "req_channel.php?chId=" + inpId.value;
+                            _open = true;
+                        }
+                        break;
+                }
+
+                if(_open == true)
+                {
+                    var _window = window.open(_url, '_blank');
+                    navigate(_window);
+                }
+            }
+            
+            function navigate(_window)
+            {
+                if (_window) {
+                    //Browser has allowed it to be opened
+                    _window.focus();
+                } else {
+                    //Browser has blocked it
+                    alert('Please allow popups for this website');
+                }
+            }
+
+            function option_changed(inp)
+            {
+                if(inp.value == "id")
+                {
+                    document.getElementById("inpId").hidden = false;
+                    document.getElementById("inpType").hidden = true;
+                    document.getElementById("btnReqEventChannelList").hidden = false;
+                } else if(inp.value == "type")
+                {
+                    document.getElementById("inpId").hidden = true;
+                    document.getElementById("inpType").hidden = false;
+                    document.getElementById("btnReqEventChannelList").hidden = true;
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <h2>Filtrar por:</h2>
+        <input type="radio" name="radOptions" value="id" onchange="option_changed(this)"> ID<br>
+        <input type="radio" name="radOptions" value="type" onchange="option_changed(this)" checked> Tipo<br><br>
+
+        <input type="text" id="inpId" placeholder="ID" hidden="hidden" />
+        <label>Tipo de evento</label><br>
+        <select id="inpType">
+            <option value="0">Genérico</option>
+            <option value="1" selected>Americano</option>
+            <option value="2">Soccer</option>
+            <option value="3">Basquetbol</option>
+            <option value="4">Baseball</option>
+            <option value="5">Premios</option>
+            <option value="6">Música</option>
+        </select>
+
+        <button id="btnReqEvent" onclick="button_Click(this)">req event</button>
+        <button id="btnReqEventChannelList" onclick="button_Click(this)" hidden="hidden">req event channel list</button>
+        <button id="btnReqChannel" onclick="button_Click(this)">req channel</button>
+    </body>
+</html>
