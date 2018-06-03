@@ -37,6 +37,14 @@ if(isset($_GET['action']) && !empty($_GET['action']))
         case 'new':
             addEvent($title, $starting_datetime, $ending_datetime, $type, $description, $chChecked);
             break;
+
+        case 'delete':
+            if(isset($_GET['evid'])) 
+            {   
+                $id = $_GET['evid'];
+                deleteEvent($id);
+            }
+            break;
     }
 }
 
@@ -66,6 +74,13 @@ function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $chlist)
     executeQuery($query);
 
     addChannels($id, $chlist);
+}
+
+function deleteEvent($id)
+{
+    require_once "queries.php";
+    $query = "DELETE FROM event WHERE ev_id='$id'";
+    executeQuery($query);
 }
 
 function addChannels($id, $chlist)
@@ -124,7 +139,7 @@ function getEventList()
             <td>$row[2]</td>
             <td>$row[3]</td>
             <td><a href='event_details.html?evid=$row[0]'>Update</a></td>
-            <td></td>";
+            <td><a href='../scripts/event.php?action=delete&evid=$row[0]'>Delete</a></td>";
         }
         $str .= "</table>";
         return $str;
