@@ -19,5 +19,6 @@ elseif($tp != null && $tp != "null") {
 
 $query .= " ORDER BY event.ev_sch ASC";
 
+header("Access-Control-Allow-Origin: *");
 echo request($query);
 ?>
