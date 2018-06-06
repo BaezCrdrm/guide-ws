@@ -83,7 +83,7 @@ function request($query)
         $data[] = $row;
     }    
 
-    $json = json_encode($data);
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE);
     $json = str_replace("\\", "", $json);
 
     return $json;
