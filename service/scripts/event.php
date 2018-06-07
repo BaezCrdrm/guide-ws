@@ -30,7 +30,13 @@ if(isset($_GET['action']) && !empty($_GET['action']))
             if(isset($_GET['evid'])) 
             {   
                 $id = $_GET['evid'];
-                modifyEvent($id, $title, $starting_datetime, $ending_datetime, $type, $description, $chChecked);
+                $modChannels = false;
+
+                if(isset($_GET['modChannels']) && $_GET['modChannels'] == "modifyChannels")
+                {
+                    $modChannels = true;
+                }
+                modifyEvent($id, $title, $starting_datetime, $ending_datetime, $type, $description, $modChannels, $chChecked);
             }
             break;
 
@@ -62,7 +68,7 @@ function addEvent($title, $sdt, $edt, $type, $desc, $chlist)
     addChannels($id, $chlist);
 }
 
-function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $chlist)
+function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $mod_ch_list, $chlist)
 {
     require_once "queries.php";
 
@@ -70,10 +76,13 @@ function modifyEvent($id, $title, $sdt, $edt, $type, $desc, $chlist)
     executeQuery($query);
 
     // update channels
-    $query = "DELETE FROM event_channel WHERE ev_id = '$id'";
-    executeQuery($query);
+    if($mod_ch_list == true)
+    {
+        $query = "DELETE FROM event_channel WHERE ev_id = '$id'";
+        executeQuery($query);
 
-    addChannels($id, $chlist);
+        addChannels($id, $chlist);
+    }
 }
 
 function deleteEvent($id)
