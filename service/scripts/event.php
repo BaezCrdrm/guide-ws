@@ -148,7 +148,7 @@ function getEventList()
             <td>$row[2]</td>
             <td>$row[3]</td>
             <td><a href='event_details.html?evid=$row[0]'>Update</a></td>
-            <td><a href='../scripts/event.php?action=delete&evid=$row[0]'>Delete</a></td>";
+            <td><button id='btnDeleteEvent' onclick='deleteEvent(".'"'.$row[0].'"'.", ".'"'.$row[1].'"'.")'>Delete</button></td>";
         }
         $str .= "</table>";
         return $str;
