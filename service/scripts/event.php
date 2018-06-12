@@ -138,6 +138,7 @@ function getEventList()
             <th>Ending</th> 
             <th></th>
             <th></th>
+            <th></th>
             </tr>";
 
         while($row = mysqli_fetch_row($result))
@@ -148,6 +149,7 @@ function getEventList()
             <td>$row[2]</td>
             <td>$row[3]</td>
             <td><a href='event_details.html?evid=$row[0]'>Update</a></td>
+            <td><a href='../channels/channel_list.php?evid=$row[0]'>Channels</a></td>
             <td><button id='btnDeleteEvent' onclick='deleteEvent(".'"'.$row[0].'"'.", ".'"'.$row[1].'"'.")'>Delete</button></td>";
         }
         $str .= "</table>";

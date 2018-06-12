@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Channel details</title>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.js"></script>
+        <script src="../scripts/js/shared_code.js"></script>
+        <script src="../scripts/js/event_channel_link.js"></script>
+    </head>
+
+    <body>
+        <h1>Channel details</h1>
+        <p id="message"></p>
+        <form id="formData" method="GET">
+            <input type="hidden" id="inpId" name="chid"/>
+            <input type="hidden" id="inpAction" name="action" />
+
+            <h2>URL canal '<span id="spEvent"></span>'</h2>
+
+            <!-- <label>Event</label>
+            <select id="slEvent" name="evId" onchange="changeEventddl(this)">
+            
+            </select><br>
+
+            <label>Channel</label>
+            <select id="slChannel" name="evCh" onchange="changeChannelddl(this)">
+            
+            </select><br> -->
+
+            <label>Broadcast URL</label>
+            <input type="url" id="inpUrl" placeholder="URL" name="evurl"><br>
+
+            <input id="btnAccept" type="button" value="Accept" />
+        </form>
+    </body>
+</html>

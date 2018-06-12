@@ -20,3 +20,42 @@ function getUrlPatameter()
     else
         return _params;
 }
+
+function loadCatalogData(target, extraData = {}, back = '../')
+{
+    var _url = back + "scripts/simple_catalog.php?target=" + target;
+    _url += "";
+    console.log(_url);
+    $.ajax(
+        {
+            url: _url,
+            data: extraData,
+            success: function(data, status)
+            {
+                switch (target) {
+                    case 'type':
+                        $('#slTypeEvent').append(data);
+                        break;
+                
+                    case 'allChannels':
+                        $('#ulAllChannels').append(data);
+                        break;
+
+                    case 'events':
+                        $('#slEvent').append(data);
+                        break;
+
+                    case 'eventChannels':
+                        $('#slChannel').append(data);
+                        break;
+                }
+            },
+            error: function()
+            {
+                let msg = "Hubo un problema al obtener datos: target:" + target;
+                console.log(msg);
+                alert(msg);
+            }
+        }
+    );
+}

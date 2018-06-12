@@ -86,27 +86,6 @@ function loadPageData()
     onDateTimePickerChange();
 }
 
-function loadCatalogData(target)
-{
-    $.ajax(
-        {
-            url: "../scripts/simple_catalog.php?target=" + target,
-            success: function(data, status)
-            {
-                switch (target) {
-                    case 'type':
-                        $('#slTypeEvent').append(data);
-                        break;
-                
-                    case 'allChannels':
-                        $('#ulAllChannels').append(data);
-                        break;
-                }
-            }
-        }
-    );
-}
-
 function addZero(value, max)
 {
     try {

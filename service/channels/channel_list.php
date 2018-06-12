@@ -21,7 +21,13 @@ if($_SESSION["activeSession"] = true)
 
         <?php
         require "../scripts/channel.php";
-        echo channelAdmList();
+        $evid;
+        if(isset($_GET['evid'])) {
+            $evid = $_GET['evid'];
+            echo channelEventList($evid);
+        } else{
+            echo channelAdmList();
+        }
         ?>
     </body>
 </html>
