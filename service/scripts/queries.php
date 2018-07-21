@@ -76,6 +76,8 @@ function checkEventId($id)
 
 function request($query)
 {
+    // executeQuery("SET time_zone = \"-5:00\";");
+
     $res = executeQuery($query);
     $data = array();
 
